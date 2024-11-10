@@ -1,0 +1,94 @@
+{
+	"info": {
+		"_postman_id": "afbdf0b4-cfb2-4eee-92ea-9ce1f9401233",
+		"name": "Calculadora",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38446658"
+	},
+	"item": [
+		{
+			"name": "Numeros Perfectos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/calculadora/numerosPerfectos/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"calculadora",
+						"numerosPerfectos",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Impares",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/calculadora/impares/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"calculadora",
+						"impares",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pares",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/calculadora/pares/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"calculadora",
+						"pares",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Numeros Primos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/calculadora/numerosPrimos/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"calculadora",
+						"numerosPrimos",
+						"6"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
