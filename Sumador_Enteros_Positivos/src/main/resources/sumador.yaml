@@ -1,0 +1,175 @@
+swagger: '2.0'
+host: sumadorNumerosPositivos.es
+basePath: /sumar
+info:
+  version: 1.0.0
+  title: SumadorNumerosPositivos
+  description: This example shows how to add positive numbers in different ways
+  contact:
+    name: Francisco Manuel Benitez Chico
+    email: paco.benitez.chico@gmail.com
+    url: https://www.linkedin.com/in/franciscobenitezchico/
+schemes:
+  - http
+produces:
+  - application/json
+x-generator-properties:
+  business-unit: mybu
+  
+###########################################
+################## PATHS ##################
+###########################################
+
+paths:
+  /by_path/{numero1}/{numero2}:
+    parameters:
+      - name: numero1
+        in: path
+        required: true
+        type: integer
+        format: int32
+      - name: numero2
+        in: path
+        required: true
+        type: integer
+        format: int32
+    get:
+      operationId: addByPath
+      description: Add by path
+      responses:
+        200:
+          description: the result of the addition
+          schema:
+            type: integer
+            format: int32
+        400:
+          description: any of numbers are not positive
+          schema:
+            $ref: "#/definitions/SumadorError"
+  /by_query:
+    get:
+      operationId: addByQuery
+      description: Add by query
+      parameters:
+        - name: numero1
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: numero2
+          in: query
+          required: false
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: the result of the addition
+          schema:
+            type: integer
+            format: int32
+        400:
+          description: any of numbers are not positive
+          schema:
+            $ref: "#/definitions/SumadorError"
+  /by_header:
+    get:
+      operationId: addByHeader
+      description: Add by header
+      parameters:
+        - name: numero1
+          in: header
+          required: true
+          type: integer
+          format: int32
+        - name: numero2
+          in: header
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: the result of the addition
+          schema:
+            type: integer
+            format: int32
+        400:
+          description: any of numbers are not positive
+          schema:
+            $ref: "#/definitions/SumadorError"
+  /by_body:
+    post:
+      operationId: addByBody
+      description: Add by body
+      consumes:
+        - application/json
+      parameters:
+        - name: numeros
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Numeros'
+      responses:
+        200:
+          description: the result of the addition
+          schema:
+            $ref: '#/definitions/Resultado'
+        400:
+          description: any of numbers are not positive
+          schema:
+            $ref: "#/definitions/SumadorError"
+  /by_file:
+    post:
+      operationId: addByFile
+      description: Add by file
+      consumes:
+        - multipart/form-data
+      produces:
+        - multipart/form-data
+      parameters:
+        - name: numeros
+          in: formData
+          type: file
+      responses:
+        200:
+          description: the result of the addition
+          schema:
+            type: file
+        400:
+          description: any of numbers are not positive
+          schema:
+            $ref: "#/definitions/SumadorError"
+        500:
+          description: outcome file error
+          schema:
+            $ref: "#/definitions/SumadorError"        
+
+###########################################
+############### DEFINITIONS ###############
+###########################################
+
+definitions:
+  Numeros:
+    type: object
+    properties:
+      numero1:
+        type: integer
+        format: int32
+      numero2:
+        type: integer
+        format: int32
+        
+  Resultado:
+    type: object
+    properties:
+      valor:
+        type: integer
+        format: int32    
+  
+  SumadorError:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string

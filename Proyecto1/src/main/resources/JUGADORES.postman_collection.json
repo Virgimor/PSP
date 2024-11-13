@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "c167b5a0-5f0d-4e09-92c8-94cc428d6f06",
+		"name": "JUGADORES",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38446658"
+	},
+	"item": [
+		{
+			"name": "AÑADIR_JUGADORES",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Juan\",\r\n    \"dorsal\": 18,\r\n    \"goles\": 5,\r\n    \"tarjetas\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/jugador/anadir_jugador?nombre=Juan&dorsal=2&goles=4&tarjetas=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"jugador",
+						"anadir_jugador"
+					],
+					"query": [
+						{
+							"key": "nombre",
+							"value": "Juan"
+						},
+						{
+							"key": "dorsal",
+							"value": "2"
+						},
+						{
+							"key": "goles",
+							"value": "4"
+						},
+						{
+							"key": "tarjetas",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BUSCAR_JUGADOR",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/jugador/buscarJugador?dorsal=18",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"jugador",
+						"buscarJugador"
+					],
+					"query": [
+						{
+							"key": "dorsal",
+							"value": "18"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BORRAR_JUGADOR",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Juan\",\r\n    \"dorsal\": 18,\r\n    \"goles\": 5,\r\n    \"tarjetas\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/jugador/eliminar_jugador",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"jugador",
+						"eliminar_jugador"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LISTAR_JUGADOR",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/jugador/listar_jugadores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"jugador",
+						"listar_jugadores"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
