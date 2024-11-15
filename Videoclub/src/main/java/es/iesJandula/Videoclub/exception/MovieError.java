@@ -1,4 +1,4 @@
-package es.iesJandula.Videoclub;
+package es.iesJandula.Videoclub.exception;
 
 import java.util.HashMap;
 import java.util.Map;

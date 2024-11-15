@@ -3,6 +3,7 @@ package es.iesJandula.Videoclub.rest;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import es.iesJandula.Videoclub.MovieError;
+import es.iesJandula.Videoclub.exception.MovieError;
 import es.iesJandula.Videoclub.models.Movie;
 import es.iesJandula.Videoclub.repository.MovieRepository;
 import es.iesJandula.Videoclub.repository.UserRepository;
@@ -36,15 +37,19 @@ public class VideoClubRest {
 	private UserRepository userRepository;
 	
 	@RequestMapping(method = RequestMethod.POST, value="/movie", consumes= {"multipart/form-data"})
-	public ResponseEntity<?> uploadMovies(@RequestParam(required = false) final MultipartFile archivo, HttpSession session){
+	public ResponseEntity<?> uploadMovies(@RequestParam(required = false) final MultipartFile archivo){
 		try
 		{    	
 			String contenidoJson = new String(archivo.getBytes());
 			
-			List<Movie> movie = Arrays.asList(new ObjectMapper().readValue(contenidoJson, Movie[].class));
+			Scanner scanner = new Scanner(contenidoJson);
 			
-			session.setAttribute("peliculas", movie);
-			return new ResponseEntity<>("Películas almacenadas en sesión exitosamente", HttpStatus.OK);
+			this.movieRepository.
+			
+			
+			
+			
+			return new ResponseEntity<>("Películas almacenadas en sesión exitosamente");
 		}
 		catch (IOException ioException)
 		{

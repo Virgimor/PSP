@@ -3,7 +3,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/videoclub?createDatabaseIfNotExist=true
     username: root
-    password: 123456Aa-
+    password: toor
   hikari:
     connection_timeout: 60000
     maximum-pool-size: 5

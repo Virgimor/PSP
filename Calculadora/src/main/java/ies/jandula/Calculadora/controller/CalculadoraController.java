@@ -1,9 +1,20 @@
 package ies.jandula.Calculadora.controller;
 
+import java.util.StringTokenizer;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import es.fmbc.psp.ud2.mi_primer_microservicio.exception.MiPrimerMicroServicioException;
+import ies.jandula.Calculadora.dto.Parametros;
+import ies.jandula.Calculadora.dto.Resultado;
+import ies.jandula.Calculadora.exception.CalculadoraServerException;
 
 @RestController
 @RequestMapping(value = "/calculadora")
@@ -41,6 +52,29 @@ public class CalculadoraController {
 		}
 		
 		return num;
+		
+	}
+	
+	@RequestMapping(value = "/exponencial", method = RequestMethod.POST, consumes = "application/json")
+	public int exponencial (@RequestBody Parametros parametros) {
+		
+		return (int) Math.pow(parametros.getNumero1(), parametros.getNumero2());
+	}
+	
+	@RequestMapping(value = "/exponencialObjet", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<?> exponencialObjet (@RequestBody Resultado resultado){
+		
+		Resultado resultadoNuevo = resultado;
+		try {
+			if(resultado.getResultado()<0) {
+				throw new CalculadoraServerException(1, "El numero tiene que ser positivo");
+			}
+		} catch (CalculadoraServerException calculadoraServerException) {
+			
+			return ResponseEntity.status(500).body(calculadoraServerException.getBodyExceptionMessage());
+		}		
+		
+		return ResponseEntity.ok().body(resultadoNuevo);
 	}
 	
 	@RequestMapping(value = "/fibonnachi/{num}")
@@ -76,6 +110,20 @@ public class CalculadoraController {
 		}
 		
 		return pares;
+	}
+	@RequestMapping(value = "/factoriall/{numero}")
+	public ResponseEntity<?> factoriall(@PathVariable int numero) {
+		try {
+			if(numero<0) {
+			throw new CalculadoraServerException(1, "el numero tiene que ser positivo");
+		}
+		
+		return ResponseEntity.ok().body(factorial(numero));
+		
+		}catch(CalculadoraServerException calculadoraServerException) {
+			return ResponseEntity.status(400).body(calculadoraServerException.getBodyExceptionMessage());
+		}
+		
 	}
 	
 	@RequestMapping(value = "/impares/{num}")
@@ -123,20 +171,71 @@ public class CalculadoraController {
 		
 		boolean perfecto=false;
 		int almacen=0;
+		//numeros por los que se va a dividir el numero ofrecido
 		int i =1;
 		while(i<num) {
 			if(num%i==0) {
+				//la variable almacen suma los numeros divisibles por el numero ofrecido 
 				almacen=almacen+i;
+				//icremento de i
 				i++;
 			} else {
 				i++;
 			}
 		}
+		//compruba que la suma de los divisores da el mismo resultado que el numero ofrecido
 		if(almacen==num) {
 			perfecto=true;
 		}
+		//
 		
 		return perfecto;
+	}
+	
+	@RequestMapping(value = "/mayorDeTres", method = RequestMethod.POST)
+	public int mayorDeTres (@RequestBody Parametros parametros) {
+		
+		if(parametros.getNumero1()>=parametros.getNumero2() && parametros.getNumero1()>=parametros.getNumero3()) {
+			return parametros.getNumero1();
+		} else if(parametros.getNumero2()>=parametros.getNumero1()&& parametros.getNumero2()>=parametros.getNumero3()) {
+			return parametros.getNumero2();
+		}else {
+			return parametros.getNumero3();
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/by_file/", 
+			consumes = {"multipart/form-data"}, produces = {"multipart/form-data"})
+	public ResponseEntity<?> sumarFileParam(@RequestParam(value="numeros", required=false) MultipartFile numeros){
+		
+		// Obtenemos del fichero el contenido del mismo
+		String numerosString = new String(numeros.getBytes());
+		
+		StringTokenizer stringTokenizer = new StringTokenizer(numerosString, " ") ;
+		
+		int numero1 = Integer.valueOf(stringTokenizer.nextToken()) ;
+		int numero2 = Integer.valueOf(stringTokenizer.nextToken()) ;
+		
+		// Aquí comprobaremos si son números positivos
+		this.checkNumbers(numero1, numero2) ;
+					
+		// Calculamos la suma
+		int outcome = numero1 + numero2 ;
+		
+		return null;
+		
+	}
+	
+	private void checkNumbers(int numero1, int numero2) throws MiPrimerMicroServicioException
+	{
+		if (numero1 < 0)
+		{
+			throw new MiPrimerMicroServicioException(1, "El número 1 es negativo: " + numero1) ;
+		}
+		else if (numero2 < 0)
+		{
+			throw new MiPrimerMicroServicioException(2, "El número 2 es negativo: " + numero2) ;
+		}
 	}
 
 }

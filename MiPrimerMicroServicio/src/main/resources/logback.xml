@@ -1,0 +1,15 @@
+<configuration>
+     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+     <encoder>
+          <pattern>%d{HH:mm:ss} %thread %-5level %logger{36} %msg%n</pattern>
+     </encoder>
+     </appender>
+
+     <logger name="org.apache" level="ERROR"/>
+     <logger name="httpclient" level="ERROR"/>
+     <logger name="es.fmbc.psp.ud2.mi_primer_microservicio" level="INFO"/>
+     
+     <root level="DEBUG">
+          <appender-ref ref="STDOUT" />
+     </root>
+</configuration>
