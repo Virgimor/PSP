@@ -10,12 +10,12 @@ public class MovieError extends Exception{
 	 */
 	private static final long serialVersionUID = -9080070553502409936L;
 	
-	private int movieErrorId;
+	private Integer movieErrorId;
 	
 	private String message;
 	
 	
-	public MovieError(int movieErrorId, String message) {
+	public MovieError(Integer movieErrorId, String message) {
 		super();
 		this.movieErrorId=movieErrorId;
 		this.message= message;
