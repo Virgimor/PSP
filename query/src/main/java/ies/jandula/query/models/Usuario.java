@@ -1,4 +1,4 @@
-package es.iesJandula.Videoclub.models;
+package ies.jandula.query.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,15 +8,25 @@ import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
 @Data
 @NoArgsConstructor
-@Entity
-public class User {
+public class Usuario {
 	
 	@Id
-	private Long userId;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 	
-	@Column(length = 100, nullable = false, unique = true)
-	private String userName;
+	@Column
+	private String nif;
+	
+	@Column
+	private Integer edad;
+	
+	@Column
+	private String direccion;
+	
+	@Column
+	private Boolean aprobado;
 
 }

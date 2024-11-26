@@ -15,7 +15,7 @@ public class MovieError extends Exception{
 	private String message;
 	
 	
-	public MovieError(Integer movieErrorId, String message) {
+	public MovieError(Integer movieErrorId, String message, Throwable exception) {
 		super();
 		this.movieErrorId=movieErrorId;
 		this.message= message;

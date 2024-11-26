@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 public class Movie {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long moviId;
 	
 	@Column(length = 50, nullable = false)
