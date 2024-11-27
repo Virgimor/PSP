@@ -11,6 +11,8 @@ public interface AlquilerRepository extends JpaRepository<Alquiler, AlquilerId>{
 
 	Optional<Alquiler> findById(AlquilerId id);
 
+	Alquiler findByIdAndId(Long userId, Long movieId);
+
 
 	
 

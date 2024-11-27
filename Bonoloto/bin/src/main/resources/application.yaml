@@ -1,7 +1,7 @@
 spring:
-  jpa.hibernate.ddl-auto: none
+  jpa.hibernate.ddl-auto: update
   datasource:
-    url: jdbc:mysql://localhost:3306/query?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/bonoloto?createDatabaseIfNotExist=true
     username: root
     password: toor
   hikari:

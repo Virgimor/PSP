@@ -1,5 +1,6 @@
 package ies.jandula.Calculadora.controller;
 
+import java.io.IOException;
 import java.util.StringTokenizer;
 
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import es.fmbc.psp.ud2.mi_primer_microservicio.exception.MiPrimerMicroServicioException;
 import ies.jandula.Calculadora.dto.Parametros;
 import ies.jandula.Calculadora.dto.Resultado;
 import ies.jandula.Calculadora.exception.CalculadoraServerException;
@@ -206,7 +206,7 @@ public class CalculadoraController {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/by_file/", 
 			consumes = {"multipart/form-data"}, produces = {"multipart/form-data"})
-	public ResponseEntity<?> sumarFileParam(@RequestParam(value="numeros", required=false) MultipartFile numeros){
+	public ResponseEntity<?> sumarFileParam(@RequestParam(value="numeros", required=false) MultipartFile numeros) throws IOException, CalculadoraServerException{
 		
 		// Obtenemos del fichero el contenido del mismo
 		String numerosString = new String(numeros.getBytes());
@@ -226,15 +226,15 @@ public class CalculadoraController {
 		
 	}
 	
-	private void checkNumbers(int numero1, int numero2) throws MiPrimerMicroServicioException
+	private void checkNumbers(int numero1, int numero2) throws CalculadoraServerException
 	{
 		if (numero1 < 0)
 		{
-			throw new MiPrimerMicroServicioException(1, "El número 1 es negativo: " + numero1) ;
+			throw new CalculadoraServerException(1, "El número 1 es negativo: " + numero1) ;
 		}
 		else if (numero2 < 0)
 		{
-			throw new MiPrimerMicroServicioException(2, "El número 2 es negativo: " + numero2) ;
+			throw new CalculadoraServerException(2, "El número 2 es negativo: " + numero2) ;
 		}
 	}
 

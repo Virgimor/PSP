@@ -173,7 +173,7 @@ public class VideoClubRest {
 		Alquiler alquiler = new Alquiler();
 		Movie movie = new Movie();
 		
-		alquiler = alquilerRepository.findById(userId, movieId);
+		alquiler = alquilerRepository.findByIdAndId(userId, movieId);
 		
 		alquilerRepository.saveAndFlush(alquiler);
 		movie.setAlquilada(Costantes.MOVIE_ALQUILADA);
@@ -186,10 +186,10 @@ public class VideoClubRest {
 	public ResponseEntity<?> cancelBookingMovie(@RequestParam (value = "userId", required = true)Long userId,
 										  		@PathVariable(value = "movieId", required = true) Long movieId){
 		
-		AlquilerId alquiler = new AlquilerId(userId, movieId);
+		Alquiler alquiler = new Alquiler();
 		Movie movie = new Movie();
 		
-		alquiler = alquilerRepository.findById(userId, movieId);
+		alquiler = alquilerRepository.findByIdAndId(userId, movieId);
 		
 		alquilerRepository.delete(alquiler);
 		movie.setAlquilada(Costantes.MOVIE_DISPONIBLE);

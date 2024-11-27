@@ -14,6 +14,18 @@ private Integer loteriaErrorId;
 	
 	private String message;
 	
+	public LoteriaException() {
+		super();
+		
+		
+	}
+	
+	public LoteriaException(Integer loteriaErrorId, String message) {
+		super();
+		this.loteriaErrorId=loteriaErrorId;
+		this.message= message;
+	}
+	
 	public LoteriaException( String message, Throwable exception) {
 		super();
 		
