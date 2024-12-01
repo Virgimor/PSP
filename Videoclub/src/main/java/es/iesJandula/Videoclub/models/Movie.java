@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Movie {
 	
 	@Id
-	private Long moviId;
+	private Long movieId;
 	
 	@Column(length = 50, nullable = false)
 	private String title;

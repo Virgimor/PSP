@@ -106,8 +106,12 @@ public class SorteoController {
 		Sorteo sorteo = new Sorteo();
 		ResultadoLoteria resultadoLoteria=new ResultadoLoteria();
 		
-		if(num1==sorteo.getNumero1()&&num2==sorteo.getNumero2()&&num3==sorteo.getNumero3()&&num4==sorteo.getNumero4()&&
-				num5==sorteo.getNumero5()&&num6==sorteo.getNumero6()&&reintegro==sorteo.getReintegro()){
+		
+		
+		if(this.sorteoRepository.findByNumero1(num1)&&this.sorteoRepository.findByNumero2(num2)==sorteo.getNumero2()&&
+			this.sorteoRepository.findByNumero3(num3)==sorteo.getNumero3()&&this.sorteoRepository.findByNumero4(num4)==sorteo.getNumero4()&&
+			this.sorteoRepository.findByNumero5(num5)==sorteo.getNumero5()&&this.sorteoRepository.findByNumero6(num6)==sorteo.getNumero6()&&
+					this.sorteoRepository.findByReintegro(reintegro)==sorteo.getReintegro()){
 			
 			resultadoLoteria.setNumeros(List.of(num1,num2,num3,num4,num5,num6));
 			resultadoLoteria.setReintegro(reintegro);

@@ -31,10 +31,10 @@ import es.iesJandula.Videoclub.utils.Costantes;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-@RequestMapping(value = "/videoclub")
-@RestController
-@Log4j2
-@NoArgsConstructor
+//@RequestMapping(value = "/videoclub")
+//@RestController
+//@Log4j2
+//@NoArgsConstructor
 public class VideoClubRest {
 	
 	
@@ -166,35 +166,35 @@ public class VideoClubRest {
 		return ResponseEntity.ok(pelicula);
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/booking/{movieId}")
-	public ResponseEntity<?> bookingMovie(@RequestParam (value = "userId", required = true)Long userId,
-										  @PathVariable(value = "movieId", required = true) Long movieId){
-		
-		Alquiler alquiler = new Alquiler();
-		Movie movie = new Movie();
-		
-		alquiler = alquilerRepository.findByIdAndId(userId, movieId);
-		
-		alquilerRepository.saveAndFlush(alquiler);
-		movie.setAlquilada(Costantes.MOVIE_ALQUILADA);
-		
-		
-		return ResponseEntity.ok(alquiler);
-	}
-	
-	@RequestMapping(method = RequestMethod.POST, value = "/booking/{movieId}")
-	public ResponseEntity<?> cancelBookingMovie(@RequestParam (value = "userId", required = true)Long userId,
-										  		@PathVariable(value = "movieId", required = true) Long movieId){
-		
-		Alquiler alquiler = new Alquiler();
-		Movie movie = new Movie();
-		
-		alquiler = alquilerRepository.findByIdAndId(userId, movieId);
-		
-		alquilerRepository.delete(alquiler);
-		movie.setAlquilada(Costantes.MOVIE_DISPONIBLE);
-		
-		return ResponseEntity.ok(alquiler);
-	}
+//	@RequestMapping(method = RequestMethod.POST, value = "/booking/{movieId}")
+//	public ResponseEntity<?> bookingMovie(@RequestParam (value = "userId", required = true)Long userId,
+//										  @PathVariable(value = "movieId", required = true) Long movieId){
+//		
+//		Alquiler alquiler = new Alquiler();
+//		Movie movie = new Movie();
+//		
+//		alquiler = alquilerRepository.findByIdAndId(userId, movieId);
+//		
+//		alquilerRepository.saveAndFlush(alquiler);
+//		movie.setAlquilada(Costantes.MOVIE_ALQUILADA);
+//		
+//		
+//		return ResponseEntity.ok(alquiler);
+//	}
+////	
+//	@RequestMapping(method = RequestMethod.POST, value = "/booking/{movieId}")
+//	public ResponseEntity<?> cancelBookingMovie(@RequestParam (value = "userId", required = true)Long userId,
+//										  		@PathVariable(value = "movieId", required = true) Long movieId){
+//		
+//		Alquiler alquiler = new Alquiler();
+//		Movie movie = new Movie();
+//		
+//		alquiler = alquilerRepository.findByIdAndId(userId, movieId);
+//		
+//		alquilerRepository.delete(alquiler);
+//		movie.setAlquilada(Costantes.MOVIE_DISPONIBLE);
+//		
+//		return ResponseEntity.ok(alquiler);
+//	}
 
 }
