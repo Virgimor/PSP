@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.psp.moreno_ortega_unidad1.dto.EquipoDto;
 import es.psp.moreno_ortega_unidad1.dto.JugadorDto;
 import es.psp.moreno_ortega_unidad1.models.Equipo;
 import es.psp.moreno_ortega_unidad1.models.Jugador;
@@ -46,13 +47,18 @@ public class CompeticionController
 		try 
 		{
 			String mensajeError="El jugador ya existe";
+			
 			if(this.jugadorRepository.findByNombre(jugador.getNombre()) != null) 
 			{
 				log.error(mensajeError);
 				throw new CompeticionesExeption(404, mensajeError);
 			}
 			log.info("Jugador creado con éxito");
-			//Jugador jugadorNuevo = this.jugadorRepository.saveAndFlush(jugador);
+			Jugador jugadorNuevo = new Jugador();
+			jugadorNuevo.setNombre(jugador.getNombre());
+			jugadorNuevo.setPosicion(jugador.getPosicion());
+					
+			this.jugadorRepository.saveAndFlush(jugadorNuevo);
 			
 			return ResponseEntity.status(204).build();			
 		} 
@@ -64,7 +70,7 @@ public class CompeticionController
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/equipos", consumes = "application/json")
-	public ResponseEntity<?> añadirEquipo(@RequestBody(required = true) Equipo equipo)
+	public ResponseEntity<?> añadirEquipo(@RequestBody(required = true) EquipoDto equipo)
 	{
 		try 
 		{
@@ -78,7 +84,13 @@ public class CompeticionController
 					
 			
 			log.info("Equipo creado con éxito");
-			Equipo equipoNuevo =this.equipoRepository.saveAndFlush(equipo);
+			Equipo equipoNuevo = new Equipo();
+			equipoNuevo.setNombre(equipo.getNombre());
+			equipoNuevo.setCiudad(equipo.getCiudad());
+			List<Jugador> jugador = this.jugadorRepository.findAll();
+			equipoNuevo.setJugadores(jugador);
+					
+			this.equipoRepository.saveAndFlush(equipoNuevo);
 			
 			return ResponseEntity.status(204).build();
 			

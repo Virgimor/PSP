@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 public class JugadorDto {
 	
 	private String nombre;
-	private int posicion;
+	private String posicion;
 
 }

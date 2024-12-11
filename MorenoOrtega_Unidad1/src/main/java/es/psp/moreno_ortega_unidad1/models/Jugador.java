@@ -23,7 +23,4 @@ public class Jugador
 	@ManyToOne
 	private Equipo equipo;
 
-	}
-	
-
 }

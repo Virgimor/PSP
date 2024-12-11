@@ -1,48 +1,19 @@
 {
 	"info": {
-		"_postman_id": "1293beaf-107c-41d5-a35b-121d6331056c",
+		"_postman_id": "1b65edae-5d46-4e6a-8378-da47b625ed0f",
 		"name": "COMPETICION",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "38446658"
 	},
 	"item": [
 		{
-			"name": "Añadir Jugador",
+			"name": "Equipos",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"dorsal\": 1,\r\n    \"nombre\": \"Juan\",\r\n    \"posicion\": \"Pinche cocina\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8081/competicion/jugadores",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"competicion",
-						"jugadores"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Añadir Equipo",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"nombre\": \"Barcelona\",\r\n    \"ciudad\": \"Andújar\",\r\n    \"puntuacion\": 10,\r\n    \"jugadores\": {\r\n        \"dorsal\": 1,\r\n        \"nombre\": \"Juan\",\r\n        \"posicion\": \"Pinche cocina\"\r\n    }\r\n}",
+					"raw": "{\r\n    \"nombre\": \"Barcelona\",\r\n    \"ciudad\": \"Andújar\",\r\n    \"jugadores\": [\r\n        \"Pepe\"\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
