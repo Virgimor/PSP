@@ -46,26 +46,33 @@ public class CompeticionController
 		
 		try 
 		{
-			String mensajeError="El jugador ya existe";
 			
 			if(this.jugadorRepository.findByNombre(jugador.getNombre()) != null) 
 			{
+				String mensajeError="El jugador ya existe";
 				log.error(mensajeError);
 				throw new CompeticionesExeption(404, mensajeError);
 			}
-			log.info("Jugador creado con éxito");
+			
 			Jugador jugadorNuevo = new Jugador();
 			jugadorNuevo.setNombre(jugador.getNombre());
 			jugadorNuevo.setPosicion(jugador.getPosicion());
-					
+				
 			this.jugadorRepository.saveAndFlush(jugadorNuevo);
 			
+			log.info("Jugador creado con éxito");
 			return ResponseEntity.status(204).build();			
 		} 
 		catch (CompeticionesExeption competicionesExeption) 
 		{
 			// TODO: handle exception
 			return ResponseEntity.status(404).body(competicionesExeption.getBodyExceptionMessage());
+		}
+		catch (Exception exception) 
+		{
+			CompeticionesExeption competicionesExeption = new CompeticionesExeption(100, "Error generico", exception);
+			
+			return ResponseEntity.status(500).body(competicionesExeption.getBodyExceptionMessage());
 		}
 	}
 	
@@ -79,33 +86,54 @@ public class CompeticionController
 			{
 				String mensajeError="El equipo ya existe";
 				log.error(mensajeError);
-				throw new CompeticionesExeption(404, mensajeError);
+				throw new CompeticionesExeption(101, mensajeError);
 			}
 					
-			
-			log.info("Equipo creado con éxito");
 			Equipo equipoNuevo = new Equipo();
 			equipoNuevo.setNombre(equipo.getNombre());
 			equipoNuevo.setCiudad(equipo.getCiudad());
-			List<Jugador> jugador = this.jugadorRepository.findAll();
-			equipoNuevo.setJugadores(jugador);
-					
+
 			this.equipoRepository.saveAndFlush(equipoNuevo);
 			
+			for(String nombreJugador:equipo.getJugadores())
+			{
+				Jugador jugador = this.jugadorRepository.findByNombre(nombreJugador);
+				
+				if (jugador == null)
+				{
+					String mensajeError="El jugador no existe";
+					log.error(mensajeError);
+					throw new CompeticionesExeption(102, mensajeError);
+				}
+				
+				jugador.setEquipo(equipoNuevo) ;
+				
+				this.jugadorRepository.saveAndFlush(jugador) ;
+			}
+			
+			log.info("Equipo creado con éxito");
 			return ResponseEntity.status(204).build();
 			
 		} 
 		catch (CompeticionesExeption competicionesExeption) 
 		{
+			if(competicionesExeption.getCodigo()==101) {
+				
+				return ResponseEntity.status(404).body(competicionesExeption.getBodyExceptionMessage());
+			}
+			else {
+				return ResponseEntity.status(405).body(competicionesExeption.getBodyExceptionMessage());
+			}
 			// TODO: handle exception
-			return ResponseEntity.status(404).body(competicionesExeption.getBodyExceptionMessage());
+			
 		} 
 		catch (Exception exception) 
 		{
-			CompeticionesExeption competicionesExeption = new CompeticionesExeption(405, "El jugador no existe", exception);
+			CompeticionesExeption competicionesExeption = new CompeticionesExeption(100, "Error generico", exception);
 			
-			return ResponseEntity.status(405).body(competicionesExeption.getBodyExceptionMessage());
-		} 
+			return ResponseEntity.status(500).body(competicionesExeption.getBodyExceptionMessage());
+		}
+		
 
 		
 	}

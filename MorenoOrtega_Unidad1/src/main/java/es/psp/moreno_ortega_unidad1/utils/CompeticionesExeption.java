@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+import lombok.Data;
+
+@Data
 public class CompeticionesExeption extends Exception 
 {
 
