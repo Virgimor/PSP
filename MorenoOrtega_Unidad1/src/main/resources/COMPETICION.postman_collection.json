@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Equipos",
+			"name": "Equipos BARCELONA",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -30,6 +30,185 @@
 					"path": [
 						"competicion",
 						"equipos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Equipos MADRID",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Madrid\",\r\n    \"ciudad\": \"Andújar\",\r\n    \"jugadores\": [\r\n        \"Juan\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/competicion/equipos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"competicion",
+						"equipos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Jugador JUAN",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"Pepe\",\r\n    \"posicion\": \"delantero\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/competicion/jugadores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"competicion",
+						"jugadores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Jugador Pepe",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"Juan\",\r\n    \"posicion\": \"delantero\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/competicion/jugadores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"competicion",
+						"jugadores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PARTIDOS LOCAL",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "nombreEquipoLocar",
+						"value": "Madrid",
+						"type": "text"
+					},
+					{
+						"key": "nombreEquipoVisitante",
+						"value": "Barcelona",
+						"type": "text"
+					},
+					{
+						"key": "fecha",
+						"value": "10-4-2025",
+						"type": "text"
+					},
+					{
+						"key": "golesLocal",
+						"value": "2",
+						"type": "text"
+					},
+					{
+						"key": "golesVisitante",
+						"value": "0",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8081/competicion/partidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"competicion",
+						"partidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PARTIDOS VISITANTE",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "nombreEquipoLocar",
+						"value": "Barcelona",
+						"type": "text"
+					},
+					{
+						"key": "nombreEquipoVisitante",
+						"value": "Madrid",
+						"type": "text"
+					},
+					{
+						"key": "fecha",
+						"value": "10-10-2024",
+						"type": "text"
+					},
+					{
+						"key": "golesLocal",
+						"value": "0",
+						"type": "text"
+					},
+					{
+						"key": "golesVisitante",
+						"value": "2",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8081/competicion/partidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"competicion",
+						"partidos"
 					]
 				}
 			},

@@ -8,6 +8,8 @@ import es.psp.moreno_ortega_unidad1.models.Equipo;
 
 public interface EquipoRepository extends JpaRepository<Equipo, String>
 {
-	List<Equipo> findByOrderByPuntuacionAsc();
+	List<Equipo> findByOrderByPuntuacionDesc();
+	
+	Equipo findByNombre(String nombre);
 
 }

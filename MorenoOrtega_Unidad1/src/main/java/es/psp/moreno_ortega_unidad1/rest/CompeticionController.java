@@ -2,6 +2,7 @@ package es.psp.moreno_ortega_unidad1.rest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.psp.moreno_ortega_unidad1.dto.ClasificacionEquipoDto;
 import es.psp.moreno_ortega_unidad1.dto.EquipoDto;
 import es.psp.moreno_ortega_unidad1.dto.JugadorDto;
 import es.psp.moreno_ortega_unidad1.models.Equipo;
@@ -51,7 +53,7 @@ public class CompeticionController
 			{
 				String mensajeError="El jugador ya existe";
 				log.error(mensajeError);
-				throw new CompeticionesExeption(404, mensajeError);
+				throw new CompeticionesExeption(100, mensajeError);
 			}
 			
 			Jugador jugadorNuevo = new Jugador();
@@ -70,7 +72,7 @@ public class CompeticionController
 		}
 		catch (Exception exception) 
 		{
-			CompeticionesExeption competicionesExeption = new CompeticionesExeption(100, "Error generico", exception);
+			CompeticionesExeption competicionesExeption = new CompeticionesExeption(120, "Error generico", exception);
 			
 			return ResponseEntity.status(500).body(competicionesExeption.getBodyExceptionMessage());
 		}
@@ -92,10 +94,11 @@ public class CompeticionController
 			Equipo equipoNuevo = new Equipo();
 			equipoNuevo.setNombre(equipo.getNombre());
 			equipoNuevo.setCiudad(equipo.getCiudad());
+			equipoNuevo.setPuntuacion(0);
 
 			this.equipoRepository.saveAndFlush(equipoNuevo);
 			
-			for(String nombreJugador:equipo.getJugadores())
+			for(String nombreJugador : equipo.getJugadores())
 			{
 				Jugador jugador = this.jugadorRepository.findByNombre(nombreJugador);
 				
@@ -124,12 +127,11 @@ public class CompeticionController
 			else {
 				return ResponseEntity.status(405).body(competicionesExeption.getBodyExceptionMessage());
 			}
-			// TODO: handle exception
 			
 		} 
 		catch (Exception exception) 
 		{
-			CompeticionesExeption competicionesExeption = new CompeticionesExeption(100, "Error generico", exception);
+			CompeticionesExeption competicionesExeption = new CompeticionesExeption(121, "Error generico", exception);
 			
 			return ResponseEntity.status(500).body(competicionesExeption.getBodyExceptionMessage());
 		}
@@ -147,51 +149,87 @@ public class CompeticionController
 	{
 		try 
 		{
+			PartidosId partidosId = new PartidosId();
+			partidosId.setFecha(fecha);
 			
+			Partidos partidos = new Partidos();
+			
+			
+			Optional<Equipo> optinalEquipoLocal= this.equipoRepository.findById(nombreEquipoLocar);
 			if(!this.equipoRepository.findById(nombreEquipoLocar).isPresent()) 
 			{
 				String mensajeError="El equipo local no existe";
 				log.error(mensajeError);
-				throw new CompeticionesExeption(404, mensajeError);
+				throw new CompeticionesExeption(103, mensajeError);
 			}
 			
+			partidos.setEquipoLocal(optinalEquipoLocal.get());
+			
+			Optional<Equipo> optinalEquipoVisitante= this.equipoRepository.findById(nombreEquipoVisitante);
 			if(!this.equipoRepository.findById(nombreEquipoVisitante).isPresent()) 
 			{
 				String mensajeError="El equipo visitante no existe";
 				log.error(mensajeError);
-				throw new CompeticionesExeption(405, mensajeError);
+				throw new CompeticionesExeption(104, mensajeError);
 			}
+			
+			partidos.setEquipoVisitante(optinalEquipoVisitante.get());
+			partidos.setPartidosId(partidosId);
 			
 			if(!isGolesValidos(golesLocal)||!isGolesValidos(golesVisitante)) 
 			{
 				String mensajeError="Los goles deben ser un entero mayor o igual que cero";
 				log.error(mensajeError);
-				throw new CompeticionesExeption(406, mensajeError);
+				throw new CompeticionesExeption(105, mensajeError);
 			}
 			
-			PartidosId partidosId = new PartidosId();
-			partidosId.setEquipoLocal(nombreEquipoLocar);
-			partidosId.setEquipoVisitante(nombreEquipoVisitante);
-			partidosId.setFecha(fecha);
-			Partidos partidos = new Partidos();
-			partidos.setPartidosId(partidosId);
 			partidos.setGolesLocal(golesLocal);
 			partidos.setGolesVisitante(golesVisitante);
 			
-			this.partidosRepository.save(partidos);
+			this.partidosRepository.saveAndFlush(partidos);
 			
+			if(golesLocal>golesVisitante) {
+				
+				Equipo equipo = this.equipoRepository.findByNombre(nombreEquipoLocar);
+				int puntuacion = equipo.getPuntuacion();
+				puntuacion+=3;
+				equipo.setPuntuacion(puntuacion);
+				this.equipoRepository.saveAndFlush(equipo);
+				
+			}
+			else {
+				Equipo equipo = this.equipoRepository.findByNombre(nombreEquipoVisitante);
+				int puntuacion = equipo.getPuntuacion();
+				puntuacion+=3;
+				equipo.setPuntuacion(puntuacion);
+				this.equipoRepository.saveAndFlush(equipo);
+			}
+			
+			log.info("Partido creado con éxito");
 			return ResponseEntity.status(204).build();
 		} 
+		
 		catch (CompeticionesExeption competicionesExeption) 
 		{
-			// TODO: handle exception
-			return ResponseEntity.status(404).body(competicionesExeption.getBodyExceptionMessage());
+			
+			if(competicionesExeption.getCodigo()==103) {
+				
+				return ResponseEntity.status(404).body(competicionesExeption.getBodyExceptionMessage());
+			}
+			else if(competicionesExeption.getCodigo()==104) {
+				
+				return ResponseEntity.status(405).body(competicionesExeption.getBodyExceptionMessage());
+			}
+			else {
+				return ResponseEntity.status(406).body(competicionesExeption.getBodyExceptionMessage());
+			}
 		}
 		catch (Exception exception) 
 		{
-			CompeticionesExeption competicionesExeption = new CompeticionesExeption(405, "El jugador no existe", exception);
 			
-			return ResponseEntity.status(405).body(competicionesExeption.getBodyExceptionMessage());
+			CompeticionesExeption competicionesExeption = new CompeticionesExeption(122, "Error generico", exception);
+			
+			return ResponseEntity.status(500).body(competicionesExeption.getBodyExceptionMessage());
 		} 		
 		
 	}
@@ -199,15 +237,26 @@ public class CompeticionController
 	@RequestMapping(method = RequestMethod.GET, value = "/equipos/clasificacion")
 	public ResponseEntity<?> clasificacion ()
 	{
-		List<Equipo> listaEquipos = new ArrayList<Equipo>();
 		
-		listaEquipos = this.equipoRepository.findByOrderByPuntuacionAsc();
+		List<Equipo> equipos = this.equipoRepository.findByOrderByPuntuacionDesc();
+		List<ClasificacionEquipoDto> listaEquipos = new ArrayList<ClasificacionEquipoDto>();
+		
+		//Itera sobre cada equipo para transformalo a ClasificacionEquipoDto
+		for(Equipo equipo: equipos) {
+			
+			ClasificacionEquipoDto clasificacionEquipoDto = new ClasificacionEquipoDto();
+			clasificacionEquipoDto.setNombre(equipo.getNombre());
+			clasificacionEquipoDto.setPuntuacion(equipo.getPuntuacion());
+			
+			listaEquipos.add(clasificacionEquipoDto);
+
+			
+		}
+				
 		
 		return ResponseEntity.ok(listaEquipos);
 		
 	}
-	
-	
 	
 	private boolean isGolesValidos(int num) 
 	{

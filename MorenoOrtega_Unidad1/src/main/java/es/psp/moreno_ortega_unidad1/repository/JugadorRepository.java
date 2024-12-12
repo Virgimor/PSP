@@ -9,6 +9,4 @@ public interface JugadorRepository extends JpaRepository<Jugador, Integer>
 
 	Jugador findByNombre(String nombre);
 
-
-
 }
