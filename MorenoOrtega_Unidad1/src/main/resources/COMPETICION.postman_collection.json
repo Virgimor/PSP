@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1b65edae-5d46-4e6a-8378-da47b625ed0f",
+		"_postman_id": "65eeb5a5-db4f-4515-a394-eeea4e43a270",
 		"name": "COMPETICION",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "38446658"
@@ -209,6 +209,27 @@
 					"path": [
 						"competicion",
 						"partidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Equipos clasificación",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/competicion/equipos/clasificacion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"competicion",
+						"equipos",
+						"clasificacion"
 					]
 				}
 			},

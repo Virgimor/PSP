@@ -141,7 +141,7 @@ public class CompeticionController
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/partidos")
-	public ResponseEntity<?> registrarPartido(@RequestHeader(required = true, value = "nombreEquipoLocar") String nombreEquipoLocar,
+	public ResponseEntity<?> registrarPartido(@RequestHeader(required = true, value = "nombreEquipoLocar") String nombreEquipoLocal,
 											  @RequestHeader(required = true, value = "nombreEquipoVisitante") String nombreEquipoVisitante,
 											  @RequestHeader(required = true, value = "fecha") String fecha,
 											  @RequestHeader(required = true, value = "golesLocal") Integer golesLocal,
@@ -155,8 +155,8 @@ public class CompeticionController
 			Partidos partidos = new Partidos();
 			
 			
-			Optional<Equipo> optinalEquipoLocal= this.equipoRepository.findById(nombreEquipoLocar);
-			if(!this.equipoRepository.findById(nombreEquipoLocar).isPresent()) 
+			Optional<Equipo> optinalEquipoLocal= this.equipoRepository.findById(nombreEquipoLocal);
+			if(!this.equipoRepository.findById(nombreEquipoLocal).isPresent()) 
 			{
 				String mensajeError="El equipo local no existe";
 				log.error(mensajeError);
@@ -188,21 +188,21 @@ public class CompeticionController
 			
 			this.partidosRepository.saveAndFlush(partidos);
 			
-			if(golesLocal>golesVisitante) {
+			if(golesLocal>golesVisitante)
+			{
 				
-				Equipo equipo = this.equipoRepository.findByNombre(nombreEquipoLocar);
-				int puntuacion = equipo.getPuntuacion();
-				puntuacion+=3;
-				equipo.setPuntuacion(puntuacion);
-				this.equipoRepository.saveAndFlush(equipo);
+				this.actualizarPuntuacionEquipo(nombreEquipoLocal, 3);
 				
 			}
-			else {
-				Equipo equipo = this.equipoRepository.findByNombre(nombreEquipoVisitante);
-				int puntuacion = equipo.getPuntuacion();
-				puntuacion+=3;
-				equipo.setPuntuacion(puntuacion);
-				this.equipoRepository.saveAndFlush(equipo);
+			else if(golesLocal==golesVisitante) {
+				
+				this.actualizarPuntuacionEquipo(nombreEquipoLocal, 1);
+				
+				this.actualizarPuntuacionEquipo(nombreEquipoVisitante, 1);
+			}
+			else
+			{
+				this.actualizarPuntuacionEquipo(nombreEquipoVisitante, 3);
 			}
 			
 			log.info("Partido creado con éxito");
@@ -233,28 +233,35 @@ public class CompeticionController
 		} 		
 		
 	}
+
+	private void actualizarPuntuacionEquipo(String nombreEquipoLocal, int puntosGanados)
+	{
+		Equipo equipoLocal = this.equipoRepository.findByNombre(nombreEquipoLocal);
+		equipoLocal.setPuntuacion(equipoLocal.getPuntuacion() + puntosGanados);
+		this.equipoRepository.saveAndFlush(equipoLocal);
+	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/equipos/clasificacion")
 	public ResponseEntity<?> clasificacion ()
 	{
 		
-		List<Equipo> equipos = this.equipoRepository.findByOrderByPuntuacionDesc();
-		List<ClasificacionEquipoDto> listaEquipos = new ArrayList<ClasificacionEquipoDto>();
+		List<ClasificacionEquipoDto> equipos = this.equipoRepository.findByOrderByPuntuacionDesc();
+//		List<ClasificacionEquipoDto> listaEquipos = new ArrayList<ClasificacionEquipoDto>();
 		
 		//Itera sobre cada equipo para transformalo a ClasificacionEquipoDto
-		for(Equipo equipo: equipos) {
-			
-			ClasificacionEquipoDto clasificacionEquipoDto = new ClasificacionEquipoDto();
-			clasificacionEquipoDto.setNombre(equipo.getNombre());
-			clasificacionEquipoDto.setPuntuacion(equipo.getPuntuacion());
-			
-			listaEquipos.add(clasificacionEquipoDto);
-
-			
-		}
+//		for(Equipo equipo: equipos) {
+//			
+//			ClasificacionEquipoDto clasificacionEquipoDto = new ClasificacionEquipoDto();
+//			clasificacionEquipoDto.setNombre(equipo.getNombre());
+//			clasificacionEquipoDto.setPuntuacion(equipo.getPuntuacion());
+//			
+//			listaEquipos.add(clasificacionEquipoDto);
+//
+//			
+//		}
 				
 		
-		return ResponseEntity.ok(listaEquipos);
+		return ResponseEntity.ok(equipos);
 		
 	}
 	
