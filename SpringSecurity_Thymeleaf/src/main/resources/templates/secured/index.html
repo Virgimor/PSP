@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <title>Spring Security y Thymeleaf</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
+    </head>
+    <body>
+        <div th:fragment="logout" class="logout" sec:authorize="isAuthenticated()">
+            Usuario conectado: <span sec:authentication="name">NombreUsuario</span> |
+            Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span> |
+            <form th:action="@{/logout}" method="post" style="display:inline">
+                <input type="submit" value="Logout"/>
+            </form>
+        </div>
+        <h1>Spring Security y Thymeleaf</h1>
+        <p>En este ejemplo estamos integrando ambos frameworks para autenticar usuarios</p>
+        <p>Adem&aacute;s, esta es una web p&uacute;blica, pero puedes navegar a otras protegidas mediante autenticaci&oacute;n</p>
+        <h2>Acceso privado</h2>
+        <ul>
+            <li>Ir a la <a href="/admin/index.html" th:href="@{/admin/index.html}">zona de administraci&oacute;n</a> (solo admins)</li>
+            <li>Ir a la <a href="/user/index.html" th:href="@{/user/index.html}">zona de usuarios</a> (solo users)</li>
+        </ul>
+    </body>
+</html>
