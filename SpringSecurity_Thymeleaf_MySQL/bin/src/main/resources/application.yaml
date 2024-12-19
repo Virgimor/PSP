@@ -1,0 +1,8 @@
+spring:
+  jpa.hibernate.ddl-auto: create
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_security_example
+    username: root
+    password: toor
+server:
+  port: 8085

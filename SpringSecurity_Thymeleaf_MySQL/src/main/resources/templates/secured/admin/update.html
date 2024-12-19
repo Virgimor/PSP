@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Actualizacion de roles</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="css/main.css" th:href="@{css/main.css}" />
+    </head>
+    <body>
+        <h1>Actualizacion de roles</h1>
+		<p>Ejemplo --> user: paco / password: paco / roles: ADMIN,USER</p>
+		<p>Ejemplo --> user: juan / password: juan / roles: USER</p>
+        <form th:action="@{/update}" method="post">
+            <label for="username">Username</label>:
+            <input type="text" id="username" name="username" required="required" autofocus="autofocus" /> <br />
+            
+            <label for="roles">Roles (separados por coma)</label>:
+            <input type="text" id="roles" name="roles" required="required" /> <br />
+            
+            <input type="submit" value="Update" />
+        </form>
+
+        <p th:if="${roleUpdateError}" th:text="${roleUpdateErrorMessage}" class="error"></p>
+        <p><a href="login.html" th:href="@{/login.html}">¿Ya tienes cuenta? Inicia sesión aquí</a></p>
+        <p><a href="index.html" th:href="@{/index.html}">Ir a la página principal</a></p>
+    </body>
+</html>

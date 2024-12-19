@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Spring Security y Thymeleaf</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
+    </head>
+    <body>
+        <div th:fragment="logout" class="logout" sec:authorize="isAuthenticated()">
+            Usuario conectado: <span sec:authentication="name">NombreUsuario</span> |
+            Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span> |
+            <form th:action="@{/logout}" method="post" style="display:inline">
+                <input type="submit" value="Logout"/>
+            </form>
+        </div>
+        <h1>Spring Security y Thymeleaf</h1>
+        <p>Esta es la zona de <b>usuarios</b></p>
+        <p>Solo los usuarios autenticados con el role <b>USER</b> tienen permiso para ver esta p&aacute;gina.</p>
+        <p><a href="index.html" th:href="@{/index.html}">Ir a la p&aacute;gina principal</a></p>
+    </body>
+</html>
